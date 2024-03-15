@@ -16,6 +16,7 @@ def conectar_db():
         cursor = conexao.cursor()
         print("Conexão com o banco com sucesso!")
         return cursor
+    
     except Exception as error:
         raise ConnectionError("Conexão falhou, verifique os dados")
     

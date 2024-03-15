@@ -31,7 +31,24 @@ def buscar_cadastro():
         
         finally:
             db.close()
+
+
+
+def buscar_pelo_id(id:int):
+        try:
+            db = conectar_db()
+            query = f"SELECT * FROM cadastros WHERE idpessoa={id};" #query(consulta do banco SQL)      
+            db.execute(query)
+            db.connection.commit()
         
+        except Exception as error:
+            db.connection.rollback()
+            raise ConnectionError(f"Erro na tentativa de consulta ao banco. {error}")
+        
+        finally:
+            db.close()
+
+
             
 def atualizar_cadastro(pessoa: PessoaAtualizada, id: int):
         try:
@@ -68,7 +85,7 @@ def atualizar_parcial_cadastro(pessoa: PessoaAtualizada, id: int):
         
         finally:
             db.close()
-
+            
         
 def deletar_cadastro(id: int):
         try:

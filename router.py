@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse #retorno padronizado para o HTTP
-from servico import atualizar_cadastro, buscar_cadastro, adicionar_cadastro, atualizar_parcial_cadastro, deletar_cadastro
+from servico import atualizar_cadastro, buscar_cadastro, adicionar_cadastro, atualizar_parcial_cadastro, deletar_cadastro, buscar_pelo_id
 from model import Pessoa, PessoaAtualizada
 
 route = APIRouter()
@@ -12,7 +12,13 @@ def buscar_pessoas():
     resultado = Pessoa.validacao_banco(dados_brutos)
     return JSONResponse(status_code= status.HTTP_200_OK, content=resultado)
 
-    
+
+@route.get("/pessoa")
+def buscar_id(id: int):
+    buscar_pelo_id(id)
+    return JSONResponse(status_code= status.HTTP_200_OK, content="Id possui no cadastro.")
+
+ 
 #endpoint POST
 @route.post("/pessoas")
 def adicionar_pessoas(pessoa: Pessoa):

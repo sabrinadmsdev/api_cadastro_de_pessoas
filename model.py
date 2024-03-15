@@ -1,12 +1,24 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, field_validator
 from typing import Optional
+from validate_docbr import CPF
+
+
 
 class Pessoa(BaseModel):
     id: int
-    nome: str
-    cpf: str
-    celular: str
-    endereco: str
+    nome: str = Field(max_lenght=100)
+    cpf: str = Field(min_length=11, max_length=11)
+    celular: str = Field(max_length=11)
+    endereco: str = Field(max_lenght=100)
+
+    @field_validator('cpf') #validação do campo CPF
+    def check_cpf(cls, value): #cls usamos em método da classe
+        cpf = CPF()
+        if cpf.validate(value):
+            return value
+        else:
+            raise ValueError(f'CPF inválido.')
+    
 
     @staticmethod #tratamento do retorno que está em lista
     def validacao_banco(dados):
