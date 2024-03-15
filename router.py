@@ -15,8 +15,9 @@ def buscar_pessoas():
 
 @route.get("/pessoa")
 def buscar_id(id: int):
-    buscar_pelo_id(id)
-    return JSONResponse(status_code= status.HTTP_200_OK, content="Id possui no cadastro.")
+    dados_id = buscar_pelo_id(id)
+    resultado = Pessoa.validacao_banco(dados_id)
+    return JSONResponse(status_code= status.HTTP_200_OK, content=resultado)
 
  
 #endpoint POST

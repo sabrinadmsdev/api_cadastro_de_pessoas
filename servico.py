@@ -39,15 +39,14 @@ def buscar_pelo_id(id:int):
             db = conectar_db()
             query = f"SELECT * FROM cadastros WHERE idpessoa={id};" #query(consulta do banco SQL)      
             db.execute(query)
-            db.connection.commit()
+            resultado = db.fetchall() #método para realizar a consulta e recuperar os resultados do banco SQL
+            return resultado
         
         except Exception as error:
-            db.connection.rollback()
-            raise ConnectionError(f"Erro na tentativa de consulta ao banco. {error}")
+            raise ConnectionError()
         
         finally:
             db.close()
-
 
             
 def atualizar_cadastro(pessoa: PessoaAtualizada, id: int):
